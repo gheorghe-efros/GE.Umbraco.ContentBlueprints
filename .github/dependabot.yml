@@ -1,0 +1,9 @@
+# Keeps the workflows' commit-pinned actions current. NuGet is deliberately excluded:
+# the package's Umbraco dependency is pinned to the 17.0.0 floor on purpose, and the
+# test site floats on 17.* already.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly

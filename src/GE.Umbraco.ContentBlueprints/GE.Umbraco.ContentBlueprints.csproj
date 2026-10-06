@@ -1,0 +1,64 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <!-- Serve wwwroot from the site root (/App_Plugins/...) instead of /_content/{PackageId}/ -->
+        <StaticWebAssetBasePath>/</StaticWebAssetBasePath>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <PackageId>GE.Umbraco.ContentBlueprints</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>Gheorghe Efros</Authors>
+        <Copyright>Copyright (c) 2026 Gheorghe Efros</Copyright>
+        <Title>Content Blueprints</Title>
+        <Description>Adds Document Blueprints to the Umbraco Content section, behind a dedicated user group permission, so editors can manage them without access to Settings. The Settings tree is left untouched.</Description>
+        <PackageTags>umbraco;umbraco-marketplace;umbraco-package;blueprints;document-blueprints;content-templates;backoffice;permissions</PackageTags>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageReleaseNotes>See https://github.com/gheorghe-efros/GE.Umbraco.ContentBlueprints/blob/main/CHANGELOG.md</PackageReleaseNotes>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/gheorghe-efros/GE.Umbraco.ContentBlueprints</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/gheorghe-efros/GE.Umbraco.ContentBlueprints</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <!-- Checks the package for inconsistencies on every pack. -->
+        <EnablePackageValidation>true</EnablePackageValidation>
+        <!--
+          Audit only the direct dependency. Compiling against the Umbraco 17.0.0 floor pulls in
+          that release's transitive dependencies, some with advisories that later 17.x patches
+          fix. Sites resolve their own, newer Umbraco, so those warnings are not actionable
+          here and would bury real ones. An advisory against Umbraco itself still shows up.
+        -->
+        <NuGetAuditMode>direct</NuGetAuditMode>
+    </PropertyGroup>
+
+    <!-- Normalizes local paths in the PDB, so CI builds are reproducible and debug via SourceLink. -->
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!--
+          Floor pinned at 17.0.0 on purpose. NuGet resolves a version range to its LOWEST
+          version, so this project compiles against Umbraco 17.0.0 and the compiler rejects
+          any API that exists only in 18. The ceiling is the .NET TFM: 17 and 18 are both
+          net10.0; 19 is expected to move to net11.0.
+
+          Umbraco.Cms.Web.Common is the only Umbraco dependency the code needs. The Document
+          Blueprint controllers it reconfigures live in Umbraco.Cms.Api.Management, but they
+          are matched by namespace at runtime, so referencing that package is not required.
+        -->
+        <PackageReference Include="Umbraco.Cms.Web.Common" Version="[17.0.0, 19.0.0)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="../../README.md" Pack="true" PackagePath="\" />
+        <None Include="../../icon.png" Pack="true" PackagePath="\" />
+    </ItemGroup>
+</Project>

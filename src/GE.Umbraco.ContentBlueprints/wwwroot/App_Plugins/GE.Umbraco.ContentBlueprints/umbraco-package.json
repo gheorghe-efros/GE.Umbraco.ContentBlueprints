@@ -1,0 +1,107 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/npm/@umbraco-cms/backoffice@17.0.0/dist-cms/umbraco-package-schema.json",
+  "name": "GE.Umbraco.ContentBlueprints",
+  "version": "1.0.0",
+  "extensions": [
+    {
+      "type": "backofficeEntryPoint",
+      "alias": "GE.ContentBlueprints.EntryPoint",
+      "name": "Content Blueprints Entry Point",
+      "js": "/App_Plugins/GE.Umbraco.ContentBlueprints/entry-point.js"
+    },
+    {
+      "type": "localization",
+      "alias": "GE.ContentBlueprints.Localization.En",
+      "name": "Content Blueprints English Localization",
+      "meta": {
+        "culture": "en",
+        "localizations": {
+          "user": {
+            "permissionsEntityGroup_document-blueprint": "Document Blueprints"
+          },
+          "geContentBlueprints": {
+            "contentAccessLabel": "Access in Content",
+            "contentAccessDescription": "Allow access to Document Blueprints from the Content section"
+          }
+        }
+      }
+    },
+    {
+      "type": "entityUserPermission",
+      "alias": "GE.EntityUserPermission.DocumentBlueprint.ContentAccess",
+      "name": "Document Blueprint Content Access User Permission",
+      "forEntityTypes": [
+        "document-blueprint"
+      ],
+      "meta": {
+        "verbs": [
+          "GE.DocumentBlueprint.ContentAccess"
+        ],
+        "label": "#geContentBlueprints_contentAccessLabel",
+        "description": "#geContentBlueprints_contentAccessDescription"
+      }
+    },
+    {
+      "type": "menu",
+      "alias": "GE.Menu.ContentBlueprints",
+      "name": "Content Blueprints Menu"
+    },
+    {
+      "type": "menuItem",
+      "kind": "tree",
+      "alias": "GE.MenuItem.ContentBlueprints",
+      "name": "Content Blueprints Menu Item",
+      "weight": 100,
+      "meta": {
+        "treeAlias": "Umb.Tree.DocumentBlueprint",
+        "label": "#treeHeaders_contentBlueprints",
+        "menus": [
+          "GE.Menu.ContentBlueprints"
+        ],
+        "hideTreeRoot": true
+      }
+    },
+    {
+      "type": "sectionSidebarApp",
+      "kind": "menuWithEntityActions",
+      "alias": "GE.SectionSidebarApp.ContentBlueprints",
+      "name": "Content Blueprints Sidebar Menu",
+      "weight": 50,
+      "meta": {
+        "label": "#treeHeaders_contentBlueprints",
+        "menu": "GE.Menu.ContentBlueprints",
+        "entityType": "document-blueprint-root"
+      },
+      "conditions": [
+        {
+          "alias": "Umb.Condition.SectionAlias",
+          "match": "Umb.Section.Content"
+        },
+        {
+          "alias": "Umb.Condition.UserPermission.Fallback",
+          "allOf": [
+            "GE.DocumentBlueprint.ContentAccess"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "collectionView",
+      "alias": "GE.CollectionView.ContentBlueprint.TreeItem.Table",
+      "name": "Content Blueprint Tree Item Table Collection View",
+      "element": "/App_Plugins/GE.Umbraco.ContentBlueprints/table-collection-view.element.js",
+      "weight": 300,
+      "meta": {
+        "label": "Table",
+        "icon": "icon-table",
+        "pathName": "table"
+      },
+      "conditions": [
+        {
+          "alias": "Umb.Condition.CollectionAlias",
+          "match": "Umb.Collection.DocumentBlueprint.TreeItemChildren"
+        }
+      ]
+    }
+  ]
+}
