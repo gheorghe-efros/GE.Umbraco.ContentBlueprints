@@ -1,4 +1,4 @@
-# GE.Umbraco.ContentBlueprints
+# Umbraco.Community.DocumentBlueprintsInContent
 
 Adds **Document Blueprints** to the Umbraco **Content** section, behind a dedicated
 user group permission — so editors can create and manage blueprints without being
@@ -11,7 +11,7 @@ Content.
 ## Install
 
 ```bash
-dotnet add package GE.Umbraco.ContentBlueprints
+dotnet add package Umbraco.Community.DocumentBlueprintsInContent
 ```
 
 Restart the site. Nothing else to configure.
@@ -71,8 +71,8 @@ user groups it was granted to, but without the package it has no effect.
 ## Contributing
 
 Issues and pull requests are welcome on
-[GitHub](https://github.com/gheorghe-efros/GE.Umbraco.ContentBlueprints). See
-[CONTRIBUTING.md](https://github.com/gheorghe-efros/GE.Umbraco.ContentBlueprints/blob/main/CONTRIBUTING.md)
+[GitHub](https://github.com/gheorghe-efros/Umbraco.Community.DocumentBlueprintsInContent). See
+[CONTRIBUTING.md](https://github.com/gheorghe-efros/Umbraco.Community.DocumentBlueprintsInContent/blob/main/CONTRIBUTING.md)
 for working on the package locally.
 
 ## Licence

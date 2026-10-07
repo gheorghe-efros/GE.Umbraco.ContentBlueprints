@@ -1,13 +1,13 @@
 {
   "$schema": "https://cdn.jsdelivr.net/npm/@umbraco-cms/backoffice@17.0.0/dist-cms/umbraco-package-schema.json",
-  "name": "GE.Umbraco.ContentBlueprints",
+  "name": "Umbraco.Community.DocumentBlueprintsInContent",
   "version": "1.0.0",
   "extensions": [
     {
       "type": "backofficeEntryPoint",
       "alias": "GE.ContentBlueprints.EntryPoint",
       "name": "Content Blueprints Entry Point",
-      "js": "/App_Plugins/GE.Umbraco.ContentBlueprints/entry-point.js"
+      "js": "/App_Plugins/Umbraco.Community.DocumentBlueprintsInContent/entry-point.js"
     },
     {
       "type": "localization",
@@ -89,7 +89,7 @@
       "type": "collectionView",
       "alias": "GE.CollectionView.ContentBlueprint.TreeItem.Table",
       "name": "Content Blueprint Tree Item Table Collection View",
-      "element": "/App_Plugins/GE.Umbraco.ContentBlueprints/table-collection-view.element.js",
+      "element": "/App_Plugins/Umbraco.Community.DocumentBlueprintsInContent/table-collection-view.element.js",
       "weight": 300,
       "meta": {
         "label": "Table",

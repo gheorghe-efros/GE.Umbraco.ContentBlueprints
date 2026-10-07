@@ -7,10 +7,10 @@ set -euo pipefail
 
 dir="${1:?usage: verify-package.sh <folder containing the .nupkg>}"
 
-matches="$(find "$dir" -maxdepth 1 -name 'GE.Umbraco.ContentBlueprints.*.nupkg' ! -name '*.snupkg')"
+matches="$(find "$dir" -maxdepth 1 -name 'Umbraco.Community.DocumentBlueprintsInContent.*.nupkg' ! -name '*.snupkg')"
 count="$(printf '%s' "$matches" | grep -c . || true)"
 # Exactly one: with several, any pick could be a stale build rather than the one just packed.
-[ "$count" -eq 1 ] || { echo "::error::Expected exactly one GE.Umbraco.ContentBlueprints .nupkg in $dir, found $count"; exit 1; }
+[ "$count" -eq 1 ] || { echo "::error::Expected exactly one Umbraco.Community.DocumentBlueprintsInContent .nupkg in $dir, found $count"; exit 1; }
 nupkg="$matches"
 echo "Verifying $(basename "$nupkg")"
 
@@ -23,18 +23,18 @@ fail() { echo "::error::$1"; failed=1; }
 
 # 1. Expected contents.
 for f in \
-  lib/net10.0/GE.Umbraco.ContentBlueprints.dll \
+  lib/net10.0/Umbraco.Community.DocumentBlueprintsInContent.dll \
   README.md \
   icon.png \
-  staticwebassets/App_Plugins/GE.Umbraco.ContentBlueprints/umbraco-package.json \
-  staticwebassets/App_Plugins/GE.Umbraco.ContentBlueprints/entry-point.js \
-  staticwebassets/App_Plugins/GE.Umbraco.ContentBlueprints/table-collection-view.element.js
+  staticwebassets/App_Plugins/Umbraco.Community.DocumentBlueprintsInContent/umbraco-package.json \
+  staticwebassets/App_Plugins/Umbraco.Community.DocumentBlueprintsInContent/entry-point.js \
+  staticwebassets/App_Plugins/Umbraco.Community.DocumentBlueprintsInContent/table-collection-view.element.js
 do
   [ -f "$work/$f" ] || fail "Package is missing $f"
 done
 
 # 2. Supported Umbraco range: exactly one Umbraco dependency, declaring 17-18.
-nuspec="$work/GE.Umbraco.ContentBlueprints.nuspec"
+nuspec="$work/Umbraco.Community.DocumentBlueprintsInContent.nuspec"
 grep -q 'id="Umbraco.Cms.Web.Common" version="\[17.0.0, 19.0.0)"' "$nuspec" \
   || fail "Umbraco.Cms.Web.Common dependency range is not [17.0.0, 19.0.0)"
 [ "$(grep -c '<dependency id="Umbraco\.' "$nuspec")" -eq 1 ] \
@@ -43,7 +43,7 @@ grep -q 'id="Umbraco.Cms.Web.Common" version="\[17.0.0, 19.0.0)"' "$nuspec" \
 # 3. The assembly must carry the package's version. A build followed by pack --no-build
 #    -p:Version=X ships a DLL stamped with the csproj's version instead of X.
 package_version="$(sed -n 's:.*<version>\(.*\)</version>.*:\1:p' "$nuspec" | head -n 1)"
-assembly_version="$(python3 - "$work/lib/net10.0/GE.Umbraco.ContentBlueprints.dll" <<'PY'
+assembly_version="$(python3 - "$work/lib/net10.0/Umbraco.Community.DocumentBlueprintsInContent.dll" <<'PY'
 import re, sys
 data = open(sys.argv[1], 'rb').read()
 # The informational version lands in the Win32 version resource as the UTF-16
@@ -59,7 +59,7 @@ PY
 # 4. No Umbraco-18-only references. Umbraco 18.2 pulls in Microsoft.AspNetCore.OpenApi,
 #    whose source generator injects references that do not resolve on Umbraco 17.
 #    Compiling against the 17.0.0 floor keeps them out; this catches a regression.
-if grep -aqiE 'openapi|swashbuckle' "$work/lib/net10.0/GE.Umbraco.ContentBlueprints.dll"; then
+if grep -aqiE 'openapi|swashbuckle' "$work/lib/net10.0/Umbraco.Community.DocumentBlueprintsInContent.dll"; then
   fail "Assembly references OpenAPI/Swashbuckle, which do not resolve on Umbraco 17"
 fi
 

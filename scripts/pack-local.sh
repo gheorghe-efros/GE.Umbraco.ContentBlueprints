@@ -8,14 +8,14 @@
 set -euo pipefail
 
 root="$(cd "$(dirname "$0")/.." && pwd)"
-project="$root/src/GE.Umbraco.ContentBlueprints"
+project="$root/src/Umbraco.Community.DocumentBlueprintsInContent"
 feed="$root/artifacts/local-feed"
 
 base_version="$(dotnet msbuild "$project" -getProperty:Version)"
 version="$base_version-dev.$(date +%Y%m%d%H%M%S)"
 
 # Only ever keep the build being made: old ones would pile up in the feed.
-rm -f "${feed:?}"/GE.Umbraco.ContentBlueprints.*.nupkg "${feed:?}"/GE.Umbraco.ContentBlueprints.*.snupkg
+rm -f "${feed:?}"/Umbraco.Community.DocumentBlueprintsInContent.*.nupkg "${feed:?}"/Umbraco.Community.DocumentBlueprintsInContent.*.snupkg
 
 dotnet pack "$project" -c Release -o "$feed" -p:Version="$version"
 
@@ -27,7 +27,7 @@ dotnet build "$root/test/TestSite" -p:UsePackageReference=true --no-restore
 # Restore also copies each dev build into the global NuGet cache. Remove this package's
 # older dev builds from there; published versions and every other package are untouched.
 cache="$(dotnet nuget locals global-packages --list | sed -n 's/^global-packages: //p')"
-package_cache="${cache%/}/ge.umbraco.contentblueprints"
+package_cache="${cache%/}/umbraco.community.documentblueprintsincontent"
 if [ -n "$cache" ] && [ -d "$package_cache" ]; then
   for old in "$package_cache"/*-dev.*; do
     [ -d "$old" ] && [ "$(basename "$old")" != "$version" ] && rm -rf "${old:?}"

@@ -1,4 +1,4 @@
-using GE.Umbraco.ContentBlueprints.Authorization;
+using Umbraco.Community.DocumentBlueprintsInContent.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +8,7 @@ using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Web.Common.Authorization;
 
-namespace GE.Umbraco.ContentBlueprints;
+namespace Umbraco.Community.DocumentBlueprintsInContent;
 
 /// <summary>
 /// Registers the Document Blueprint access policy, its handler, and the action

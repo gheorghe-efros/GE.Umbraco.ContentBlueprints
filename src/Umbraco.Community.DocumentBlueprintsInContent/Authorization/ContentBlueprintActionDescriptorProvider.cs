@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Umbraco.Cms.Web.Common.Authorization;
 
-namespace GE.Umbraco.ContentBlueprints.Authorization;
+namespace Umbraco.Community.DocumentBlueprintsInContent.Authorization;
 
 /// <summary>
 /// Swaps the Settings-only <see cref="AuthorizationPolicies.TreeAccessDocumentTypes"/> policy on the Document Blueprint

@@ -9,8 +9,8 @@ name: Release
 # short-lived GitHub token for a one-hour nuget.org API key, so no long-lived key is
 # stored anywhere. One-time setup:
 #   - nuget.org > your username > Trusted Publishing > add a policy with
-#     Repository owner: gheorghe-efros, Repository: GE.Umbraco.ContentBlueprints,
-#     Workflow file: release.yml, scoped to the GE.Umbraco.ContentBlueprints package.
+#     Repository owner: gheorghe-efros, Repository: Umbraco.Community.DocumentBlueprintsInContent,
+#     Workflow file: release.yml, scoped to the Umbraco.Community.DocumentBlueprintsInContent package.
 #   - GitHub > Settings > Secrets and variables > Actions > Variables:
 #     NUGET_USER = your nuget.org username (profile name, not email).
 # See https://learn.microsoft.com/nuget/nuget-org/trusted-publishing
@@ -71,14 +71,14 @@ jobs:
       # back to the assembly version, so it has to be set explicitly.
       - name: Stamp version into umbraco-package.json
         run: |
-          f=src/GE.Umbraco.ContentBlueprints/wwwroot/App_Plugins/GE.Umbraco.ContentBlueprints/umbraco-package.json
+          f=src/Umbraco.Community.DocumentBlueprintsInContent/wwwroot/App_Plugins/Umbraco.Community.DocumentBlueprintsInContent/umbraco-package.json
           jq --arg v "$VERSION" '.version = $v' "$f" > "$f.tmp"
           mv "$f.tmp" "$f"
 
       # Pack builds too. A separate build followed by pack --no-build would compile the
       # assembly with the csproj's version, not the tag's.
       - name: Pack
-        run: dotnet pack src/GE.Umbraco.ContentBlueprints -c Release -o artifacts -p:Version="$VERSION"
+        run: dotnet pack src/Umbraco.Community.DocumentBlueprintsInContent -c Release -o artifacts -p:Version="$VERSION"
 
       # Same checks as CI. A published version can never be deleted or replaced, so
       # nothing reaches nuget.org without passing them.

@@ -9,19 +9,19 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <PackageId>GE.Umbraco.ContentBlueprints</PackageId>
+        <PackageId>Umbraco.Community.DocumentBlueprintsInContent</PackageId>
         <Version>1.0.0</Version>
         <Authors>Gheorghe Efros</Authors>
         <Copyright>Copyright (c) 2026 Gheorghe Efros</Copyright>
-        <Title>Content Blueprints</Title>
+        <Title>Document Blueprints in Content</Title>
         <Description>Adds Document Blueprints to the Umbraco Content section, behind a dedicated user group permission, so editors can manage them without access to Settings. The Settings tree is left untouched.</Description>
         <PackageTags>umbraco;umbraco-marketplace;umbraco-package;blueprints;document-blueprints;content-templates;backoffice;permissions</PackageTags>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageReleaseNotes>See https://github.com/gheorghe-efros/GE.Umbraco.ContentBlueprints/blob/main/CHANGELOG.md</PackageReleaseNotes>
+        <PackageReleaseNotes>See https://github.com/gheorghe-efros/Umbraco.Community.DocumentBlueprintsInContent/blob/main/CHANGELOG.md</PackageReleaseNotes>
         <PackageIcon>icon.png</PackageIcon>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageProjectUrl>https://github.com/gheorghe-efros/GE.Umbraco.ContentBlueprints</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/gheorghe-efros/GE.Umbraco.ContentBlueprints</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/gheorghe-efros/Umbraco.Community.DocumentBlueprintsInContent</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/gheorghe-efros/Umbraco.Community.DocumentBlueprintsInContent</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>

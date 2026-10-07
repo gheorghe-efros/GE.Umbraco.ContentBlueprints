@@ -37,10 +37,10 @@
       assets are registered twice and the build fails with "Conflicting assets".
     -->
     <ItemGroup Condition="'$(UsePackageReference)' != 'true'">
-        <ProjectReference Include="../../src/GE.Umbraco.ContentBlueprints/GE.Umbraco.ContentBlueprints.csproj" />
+        <ProjectReference Include="../../src/Umbraco.Community.DocumentBlueprintsInContent/Umbraco.Community.DocumentBlueprintsInContent.csproj" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(UsePackageReference)' == 'true'">
-        <PackageReference Include="GE.Umbraco.ContentBlueprints" Version="*-*" />
+        <PackageReference Include="Umbraco.Community.DocumentBlueprintsInContent" Version="*-*" />
     </ItemGroup>
 </Project>

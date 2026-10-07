@@ -15,4 +15,4 @@ All notable changes to this package are documented here. The format is based on
   with access to Settings keep exactly the access Umbraco gives them.
 - Supports Umbraco 17 and 18.
 
-[1.0.0]: https://github.com/gheorghe-efros/GE.Umbraco.ContentBlueprints/tree/v1.0.0
+[1.0.0]: https://github.com/gheorghe-efros/Umbraco.Community.DocumentBlueprintsInContent/tree/v1.0.0

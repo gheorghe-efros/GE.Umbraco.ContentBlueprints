@@ -6,7 +6,7 @@ security reports are taken seriously.
 ## Reporting a vulnerability
 
 Please **do not** open a public issue. Report it privately through GitHub's
-[security advisory form](https://github.com/gheorghe-efros/GE.Umbraco.ContentBlueprints/security/advisories/new),
+[security advisory form](https://github.com/gheorghe-efros/Umbraco.Community.DocumentBlueprintsInContent/security/advisories/new),
 with the Umbraco version, steps to reproduce, and the impact you observed.
 
 You can expect an acknowledgement within a few working days. Once confirmed, a fix

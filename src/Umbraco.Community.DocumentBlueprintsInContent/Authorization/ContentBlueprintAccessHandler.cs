@@ -3,7 +3,7 @@ using Umbraco.Cms.Core;
 using Umbraco.Cms.Core.Models.Membership;
 using Umbraco.Cms.Core.Security.Authorization;
 
-namespace GE.Umbraco.ContentBlueprints.Authorization;
+namespace Umbraco.Community.DocumentBlueprintsInContent.Authorization;
 
 /// <summary>
 /// Requirement for the Document Blueprint access policy. Satisfied by
