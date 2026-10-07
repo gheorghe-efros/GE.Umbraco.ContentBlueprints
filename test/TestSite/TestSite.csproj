@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <!-- Harness only. Never publish this to NuGet. -->
+        <IsPackable>false</IsPackable>
+        <!-- Umbraco backoffice assets are pre-compressed; let Umbraco serve them as-is. -->
+        <CompressionEnabled>false</CompressionEnabled>
+        <!--
+          ModelsMode is InMemoryAuto: content models only exist at runtime, generated from
+          the document types in the database. Views must therefore be compiled at runtime
+          too, or a template created in the backoffice fails the next build with "type ...
+          does not exist". Mirrors the official Umbraco template.
+        -->
+        <RazorCompileOnBuild>false</RazorCompileOnBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!--
+          Pinned to the 17.x line on purpose: this harness exists to prove the package
+          works on its lowest supported Umbraco major. Do not float it to 18.
+        -->
+        <PackageReference Include="Umbraco.Cms" Version="17.*" />
+        <!-- Provides the runtime model generation and Razor compilation InMemoryAuto needs. -->
+        <PackageReference Include="Umbraco.Cms.DevelopmentMode.Backoffice" Version="17.*" />
+    </ItemGroup>
+
+    <!--
+      By default the site references the package project directly: a fresh clone builds
+      with no setup, and JS changes are served live without repacking.
+
+      scripts/pack-local.sh builds with -p:UsePackageReference=true instead, which swaps
+      in the .nupkg from the local feed to test the package exactly as a user installs it.
+
+      Exactly one of these two references must be active: with both, the package's static
+      assets are registered twice and the build fails with "Conflicting assets".
+    -->
+    <ItemGroup Condition="'$(UsePackageReference)' != 'true'">
+        <ProjectReference Include="../../src/Umbraco.Community.DocumentBlueprintsInContent/Umbraco.Community.DocumentBlueprintsInContent.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(UsePackageReference)' == 'true'">
+        <PackageReference Include="Umbraco.Community.DocumentBlueprintsInContent" Version="*-*" />
+    </ItemGroup>
+</Project>

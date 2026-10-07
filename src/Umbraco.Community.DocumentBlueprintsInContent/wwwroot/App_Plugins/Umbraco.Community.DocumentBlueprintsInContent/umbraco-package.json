@@ -1,0 +1,107 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/npm/@umbraco-cms/backoffice@17.0.0/dist-cms/umbraco-package-schema.json",
+  "name": "Umbraco.Community.DocumentBlueprintsInContent",
+  "version": "1.0.0",
+  "extensions": [
+    {
+      "type": "backofficeEntryPoint",
+      "alias": "Umbraco.Community.DocumentBlueprintsInContent.EntryPoint",
+      "name": "Document Blueprints in Content Entry Point",
+      "js": "/App_Plugins/Umbraco.Community.DocumentBlueprintsInContent/entry-point.js"
+    },
+    {
+      "type": "localization",
+      "alias": "Umbraco.Community.DocumentBlueprintsInContent.Localization.En",
+      "name": "Document Blueprints in Content English Localization",
+      "meta": {
+        "culture": "en",
+        "localizations": {
+          "user": {
+            "permissionsEntityGroup_document-blueprint": "Document Blueprints"
+          },
+          "documentBlueprintsInContent": {
+            "contentAccessLabel": "Access in Content",
+            "contentAccessDescription": "Allow access to Document Blueprints from the Content section"
+          }
+        }
+      }
+    },
+    {
+      "type": "entityUserPermission",
+      "alias": "Umbraco.Community.DocumentBlueprintsInContent.EntityUserPermission.ContentAccess",
+      "name": "Document Blueprint Content Access User Permission",
+      "forEntityTypes": [
+        "document-blueprint"
+      ],
+      "meta": {
+        "verbs": [
+          "Umbraco.Community.DocumentBlueprintsInContent.ContentAccess"
+        ],
+        "label": "#documentBlueprintsInContent_contentAccessLabel",
+        "description": "#documentBlueprintsInContent_contentAccessDescription"
+      }
+    },
+    {
+      "type": "menu",
+      "alias": "Umbraco.Community.DocumentBlueprintsInContent.Menu",
+      "name": "Document Blueprints in Content Menu"
+    },
+    {
+      "type": "menuItem",
+      "kind": "tree",
+      "alias": "Umbraco.Community.DocumentBlueprintsInContent.MenuItem",
+      "name": "Document Blueprints in Content Menu Item",
+      "weight": 100,
+      "meta": {
+        "treeAlias": "Umb.Tree.DocumentBlueprint",
+        "label": "#treeHeaders_contentBlueprints",
+        "menus": [
+          "Umbraco.Community.DocumentBlueprintsInContent.Menu"
+        ],
+        "hideTreeRoot": true
+      }
+    },
+    {
+      "type": "sectionSidebarApp",
+      "kind": "menuWithEntityActions",
+      "alias": "Umbraco.Community.DocumentBlueprintsInContent.SectionSidebarApp",
+      "name": "Document Blueprints in Content Sidebar Menu",
+      "weight": 50,
+      "meta": {
+        "label": "#treeHeaders_contentBlueprints",
+        "menu": "Umbraco.Community.DocumentBlueprintsInContent.Menu",
+        "entityType": "document-blueprint-root"
+      },
+      "conditions": [
+        {
+          "alias": "Umb.Condition.SectionAlias",
+          "match": "Umb.Section.Content"
+        },
+        {
+          "alias": "Umb.Condition.UserPermission.Fallback",
+          "allOf": [
+            "Umbraco.Community.DocumentBlueprintsInContent.ContentAccess"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "collectionView",
+      "alias": "Umbraco.Community.DocumentBlueprintsInContent.CollectionView.Table",
+      "name": "Document Blueprints in Content Table Collection View",
+      "element": "/App_Plugins/Umbraco.Community.DocumentBlueprintsInContent/table-collection-view.element.js",
+      "weight": 300,
+      "meta": {
+        "label": "Table",
+        "icon": "icon-table",
+        "pathName": "table"
+      },
+      "conditions": [
+        {
+          "alias": "Umb.Condition.CollectionAlias",
+          "match": "Umb.Collection.DocumentBlueprint.TreeItemChildren"
+        }
+      ]
+    }
+  ]
+}

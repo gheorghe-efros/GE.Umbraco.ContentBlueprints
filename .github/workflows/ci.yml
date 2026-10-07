@@ -1,0 +1,46 @@
+name: CI
+
+# Runs on every push to main and every pull request. Builds, packs and verifies the
+# package, but never publishes and needs no secrets. Its job is to catch a broken
+# build or a bad package before a release tag sends it to nuget.org, where a
+# published version can never be deleted or replaced.
+#
+# Actions are pinned to full commit SHAs (Dependabot keeps them current), so a moved
+# or compromised tag cannot change what runs here.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: '10.0.x'
+
+      # Builds against the Umbraco 17.0.0 floor, so anything that exists only in 18 fails here.
+      - name: Build and pack
+        run: >
+          dotnet pack src/Umbraco.Community.DocumentBlueprintsInContent -c Release
+          -o artifacts -p:Version=0.0.0-ci.${{ github.run_number }}
+
+      - name: Verify package
+        run: bash scripts/verify-package.sh artifacts
+
+      # Keeps the documented dev setup working (default: project reference).
+      - name: Build test site
+        run: dotnet build test/TestSite
+
+      - name: Upload package
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: package
+          path: artifacts/*.nupkg

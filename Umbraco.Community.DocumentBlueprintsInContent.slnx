@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Umbraco.Community.DocumentBlueprintsInContent/Umbraco.Community.DocumentBlueprintsInContent.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/TestSite/TestSite.csproj" />
+  </Folder>
+</Solution>

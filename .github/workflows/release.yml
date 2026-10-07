@@ -1,0 +1,103 @@
+name: Release
+
+# Publishes to nuget.org when a version tag is pushed on a commit that is on main:
+#
+#   git tag v1.0.0
+#   git push origin v1.0.0
+#
+# Authentication uses nuget.org Trusted Publishing (OIDC): each run exchanges a
+# short-lived GitHub token for a one-hour nuget.org API key, so no long-lived key is
+# stored anywhere. One-time setup:
+#   - nuget.org > your username > Trusted Publishing > add a policy with
+#     Repository owner: gheorghe-efros, Repository: Umbraco.Community.DocumentBlueprintsInContent,
+#     Workflow file: release.yml, scoped to the Umbraco.Community.DocumentBlueprintsInContent package.
+#   - GitHub > Settings > Secrets and variables > Actions > Variables:
+#     NUGET_USER = your nuget.org username (profile name, not email).
+# See https://learn.microsoft.com/nuget/nuget-org/trusted-publishing
+#
+# Actions are pinned to full commit SHAs (Dependabot keeps them current), so a moved
+# or compromised tag cannot change what runs with publishing rights.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # lets the job request the OIDC token for Trusted Publishing
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # full history, to check the tagged commit is on main
+
+      # Only reviewed code gets published: a tag on a commit that never reached main is refused.
+      - name: Require the tagged commit to be on main
+        run: |
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::Tag $GITHUB_REF_NAME points at a commit that is not on main."
+            exit 1
+          fi
+
+      # The tag is the single source of truth for the version (v1.2.3 -> 1.2.3). Validated here,
+      # and passed to later steps as an environment variable rather than spliced into scripts.
+      - name: Resolve version from tag
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::Tag $GITHUB_REF_NAME is not a version tag such as v1.2.3 or v1.2.3-beta.1."
+            exit 1
+          fi
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+
+      # Fail up front with a clear message, rather than deep inside the login step.
+      - name: Require the NUGET_USER variable
+        env:
+          NUGET_USER: ${{ vars.NUGET_USER }}
+        run: |
+          if [ -z "$NUGET_USER" ]; then
+            echo "::error::Set the NUGET_USER repository variable (your nuget.org username) before releasing."
+            exit 1
+          fi
+
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: '10.0.x'
+
+      # Umbraco shows this in the backoffice's installed packages list; it does not fall
+      # back to the assembly version, so it has to be set explicitly.
+      - name: Stamp version into umbraco-package.json
+        run: |
+          f=src/Umbraco.Community.DocumentBlueprintsInContent/wwwroot/App_Plugins/Umbraco.Community.DocumentBlueprintsInContent/umbraco-package.json
+          jq --arg v "$VERSION" '.version = $v' "$f" > "$f.tmp"
+          mv "$f.tmp" "$f"
+
+      # Pack builds too. A separate build followed by pack --no-build would compile the
+      # assembly with the csproj's version, not the tag's.
+      - name: Pack
+        run: dotnet pack src/Umbraco.Community.DocumentBlueprintsInContent -c Release -o artifacts -p:Version="$VERSION"
+
+      # Same checks as CI. A published version can never be deleted or replaced, so
+      # nothing reaches nuget.org without passing them.
+      - name: Verify package
+        run: bash scripts/verify-package.sh artifacts
+
+      # Requested right before the push: the temporary key is only valid for an hour.
+      - name: NuGet login (OIDC)
+        id: login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        with:
+          user: ${{ vars.NUGET_USER }}
+
+      # The matching .snupkg symbol package is pushed automatically alongside. No
+      # --skip-duplicate: re-releasing an existing version must fail, not report success.
+      - name: Push to nuget.org
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: >
+          dotnet nuget push "artifacts/*.nupkg"
+          --source https://api.nuget.org/v3/index.json
+          --api-key "$NUGET_API_KEY"
