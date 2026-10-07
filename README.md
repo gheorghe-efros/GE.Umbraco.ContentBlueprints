@@ -43,7 +43,7 @@ it to them would present an empty picker and a dead end.
 
 ## How it works
 
-**Backoffice** — registers the permission (`GE.DocumentBlueprint.ContentAccess`)
+**Backoffice** — registers the permission (`Umbraco.Community.DocumentBlueprintsInContent.ContentAccess`)
 and a Content sidebar menu that appears only when the permission is granted. It
 reuses Umbraco's own blueprint tree, and swaps in a section-aware version of the
 children table so links resolve to whichever section you are in.

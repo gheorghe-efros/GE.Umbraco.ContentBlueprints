@@ -14,7 +14,7 @@ public static class ContentBlueprintPermissions
     /// This value is stored on user groups in the database. Never change it after a release: every
     /// existing grant would silently stop working.
     /// </remarks>
-    public const string ContentAccess = "GE.DocumentBlueprint.ContentAccess";
+    public const string ContentAccess = "Umbraco.Community.DocumentBlueprintsInContent.ContentAccess";
 
     /// <summary>
     /// Authorization policy that replaces Umbraco's Settings-only policy on the Document Blueprint Management API.

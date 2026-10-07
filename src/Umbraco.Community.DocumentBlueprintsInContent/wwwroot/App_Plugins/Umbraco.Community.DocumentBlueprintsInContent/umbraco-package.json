@@ -35,7 +35,7 @@
       ],
       "meta": {
         "verbs": [
-          "GE.DocumentBlueprint.ContentAccess"
+          "Umbraco.Community.DocumentBlueprintsInContent.ContentAccess"
         ],
         "label": "#geContentBlueprints_contentAccessLabel",
         "description": "#geContentBlueprints_contentAccessDescription"
@@ -80,7 +80,7 @@
         {
           "alias": "Umb.Condition.UserPermission.Fallback",
           "allOf": [
-            "GE.DocumentBlueprint.ContentAccess"
+            "Umbraco.Community.DocumentBlueprintsInContent.ContentAccess"
           ]
         }
       ]
