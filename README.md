@@ -43,10 +43,11 @@ it to them would present an empty picker and a dead end.
 
 ## How it works
 
-**Backoffice** — registers the permission (`Umbraco.Community.DocumentBlueprintsInContent.ContentAccess`)
-and a Content sidebar menu that appears only when the permission is granted. It
-reuses Umbraco's own blueprint tree, and swaps in a section-aware version of the
-children table so links resolve to whichever section you are in.
+**Backoffice** — registers the permission
+(`Umbraco.Community.DocumentBlueprintsInContent.ContentAccess`) and a Content
+sidebar menu that appears only when the permission is granted. It reuses Umbraco's
+own blueprint tree, and swaps in a section-aware version of the children table so
+links resolve to whichever section you are in.
 
 **Management API** — Umbraco's Document Blueprint endpoints require Settings
 section access. On those endpoints only, this package substitutes a policy that

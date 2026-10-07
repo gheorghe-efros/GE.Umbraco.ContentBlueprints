@@ -1,6 +1,6 @@
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-// Local-only overrides (unattended install credentials, etc). Gitignored — see README.
+// Local-only overrides (unattended install credentials, etc). Gitignored — see CONTRIBUTING.md.
 builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
 
 builder.CreateUmbracoBuilder()

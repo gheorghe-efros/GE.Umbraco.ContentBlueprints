@@ -26,7 +26,7 @@ const editPath = (sectionName, entityType, localPattern, unique) =>
 
 // Same as core's blueprint children table view, but links to the workspace in the current
 // section instead of always to Settings.
-class GeContentBlueprintTableCollectionViewElement extends UmbLitElement {
+class DocumentBlueprintsInContentTableCollectionViewElement extends UmbLitElement {
 	static properties = {
 		_tableItems: { state: true },
 	};
@@ -42,14 +42,14 @@ class GeContentBlueprintTableCollectionViewElement extends UmbLitElement {
 			this.observe(sectionContext?.pathname, (pathname) => {
 				this.#sectionName = pathname;
 				this.#createTableItems();
-			}, 'geObserveSectionPathname');
+			}, 'observeSectionPathname');
 		});
 
 		this.consumeContext(UMB_COLLECTION_CONTEXT, (collectionContext) => {
 			this.observe(collectionContext?.items, (items) => {
 				this.#items = items ?? [];
 				this.#createTableItems();
-			}, 'geObserveCollectionItems');
+			}, 'observeCollectionItems');
 		});
 	}
 
@@ -98,9 +98,9 @@ class GeContentBlueprintTableCollectionViewElement extends UmbLitElement {
 // Umbraco loads this with a cache-busting query string; any other import of the same file is
 // a separate module instance. Define the tag once, and always export the registered class:
 // a second, unregistered copy would throw "Illegal constructor" when instantiated.
-const TAG = 'ge-content-blueprint-table-collection-view';
+const TAG = 'document-blueprints-in-content-table-collection-view';
 if (!customElements.get(TAG)) {
-	customElements.define(TAG, GeContentBlueprintTableCollectionViewElement);
+	customElements.define(TAG, DocumentBlueprintsInContentTableCollectionViewElement);
 }
 
 export const element = customElements.get(TAG);

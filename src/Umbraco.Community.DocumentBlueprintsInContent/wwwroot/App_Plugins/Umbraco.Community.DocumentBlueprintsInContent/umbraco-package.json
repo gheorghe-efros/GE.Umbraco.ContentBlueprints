@@ -5,21 +5,21 @@
   "extensions": [
     {
       "type": "backofficeEntryPoint",
-      "alias": "GE.ContentBlueprints.EntryPoint",
-      "name": "Content Blueprints Entry Point",
+      "alias": "Umbraco.Community.DocumentBlueprintsInContent.EntryPoint",
+      "name": "Document Blueprints in Content Entry Point",
       "js": "/App_Plugins/Umbraco.Community.DocumentBlueprintsInContent/entry-point.js"
     },
     {
       "type": "localization",
-      "alias": "GE.ContentBlueprints.Localization.En",
-      "name": "Content Blueprints English Localization",
+      "alias": "Umbraco.Community.DocumentBlueprintsInContent.Localization.En",
+      "name": "Document Blueprints in Content English Localization",
       "meta": {
         "culture": "en",
         "localizations": {
           "user": {
             "permissionsEntityGroup_document-blueprint": "Document Blueprints"
           },
-          "geContentBlueprints": {
+          "documentBlueprintsInContent": {
             "contentAccessLabel": "Access in Content",
             "contentAccessDescription": "Allow access to Document Blueprints from the Content section"
           }
@@ -28,7 +28,7 @@
     },
     {
       "type": "entityUserPermission",
-      "alias": "GE.EntityUserPermission.DocumentBlueprint.ContentAccess",
+      "alias": "Umbraco.Community.DocumentBlueprintsInContent.EntityUserPermission.ContentAccess",
       "name": "Document Blueprint Content Access User Permission",
       "forEntityTypes": [
         "document-blueprint"
@@ -37,26 +37,26 @@
         "verbs": [
           "Umbraco.Community.DocumentBlueprintsInContent.ContentAccess"
         ],
-        "label": "#geContentBlueprints_contentAccessLabel",
-        "description": "#geContentBlueprints_contentAccessDescription"
+        "label": "#documentBlueprintsInContent_contentAccessLabel",
+        "description": "#documentBlueprintsInContent_contentAccessDescription"
       }
     },
     {
       "type": "menu",
-      "alias": "GE.Menu.ContentBlueprints",
-      "name": "Content Blueprints Menu"
+      "alias": "Umbraco.Community.DocumentBlueprintsInContent.Menu",
+      "name": "Document Blueprints in Content Menu"
     },
     {
       "type": "menuItem",
       "kind": "tree",
-      "alias": "GE.MenuItem.ContentBlueprints",
-      "name": "Content Blueprints Menu Item",
+      "alias": "Umbraco.Community.DocumentBlueprintsInContent.MenuItem",
+      "name": "Document Blueprints in Content Menu Item",
       "weight": 100,
       "meta": {
         "treeAlias": "Umb.Tree.DocumentBlueprint",
         "label": "#treeHeaders_contentBlueprints",
         "menus": [
-          "GE.Menu.ContentBlueprints"
+          "Umbraco.Community.DocumentBlueprintsInContent.Menu"
         ],
         "hideTreeRoot": true
       }
@@ -64,12 +64,12 @@
     {
       "type": "sectionSidebarApp",
       "kind": "menuWithEntityActions",
-      "alias": "GE.SectionSidebarApp.ContentBlueprints",
-      "name": "Content Blueprints Sidebar Menu",
+      "alias": "Umbraco.Community.DocumentBlueprintsInContent.SectionSidebarApp",
+      "name": "Document Blueprints in Content Sidebar Menu",
       "weight": 50,
       "meta": {
         "label": "#treeHeaders_contentBlueprints",
-        "menu": "GE.Menu.ContentBlueprints",
+        "menu": "Umbraco.Community.DocumentBlueprintsInContent.Menu",
         "entityType": "document-blueprint-root"
       },
       "conditions": [
@@ -87,8 +87,8 @@
     },
     {
       "type": "collectionView",
-      "alias": "GE.CollectionView.ContentBlueprint.TreeItem.Table",
-      "name": "Content Blueprint Tree Item Table Collection View",
+      "alias": "Umbraco.Community.DocumentBlueprintsInContent.CollectionView.Table",
+      "name": "Document Blueprints in Content Table Collection View",
       "element": "/App_Plugins/Umbraco.Community.DocumentBlueprintsInContent/table-collection-view.element.js",
       "weight": 300,
       "meta": {

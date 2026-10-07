@@ -43,9 +43,9 @@ version, so `dotnet build` compiles against 17.0.0 and the compiler rejects anyt
 that exists only in 18 — that build is the real compatibility gate. Do not raise the
 floor without re-checking the package on the new minimum.
 
-The permission ID `Umbraco.Community.DocumentBlueprintsInContent.ContentAccess` is stored on user groups in the
-database. Never change it after a release: every existing grant would silently stop
-working.
+The permission ID `Umbraco.Community.DocumentBlueprintsInContent.ContentAccess` is
+stored on user groups in the database. Never change it after a release: every
+existing grant would silently stop working.
 
 ## Checks and releases
 
